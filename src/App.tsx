@@ -1,19 +1,37 @@
-import { Usuario } from './models/Usuario'
-import './App.css'
+// src/App.tsx
+
+import { useState } from 'react';
+import { Usuario } from './models/Usuario';
+import './App.css';
 
 function App() {
- 
-const u2 = new Usuario('Flavin do Pnel' , 54);
-const ul = new Usuario('João da silva', 35);
+  const usuario = new Usuario('Lucas', 28, '123456');
 
-ul.nome = 'Marcos';
+  const [senhaDigitada, setSenhaDigitada] = useState('');
+  const [senhaCorreta, setSenhaCorreta] = useState<boolean | null>(null);
+
+  const verificar = () => {
+    const resultado = usuario.verificarSenha(senhaDigitada);
+    setSenhaCorreta(resultado);
+  };
 
   return (
-    <>
-      <p>{ul.apresentar()}</p>
-      <p>{u2.apresentar()}</p>
-    </>
-  )
+    <div>
+      <h1>{usuario.apresentar()}</h1>
+
+      <input
+        type="password"
+        placeholder="Digite sua senha"
+        value={senhaDigitada}
+        onChange={(e) => setSenhaDigitada(e.target.value)}
+      />
+      <button onClick={verificar}>Verificar Senha</button>
+
+      {senhaCorreta !== null && (
+        <p>Senha {senhaCorreta ? 'correta' : 'incorreta'}!</p>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
